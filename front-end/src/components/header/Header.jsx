@@ -1,11 +1,14 @@
 import styles from "./header.module.css";
 import reactLogo from '../../assets/react.svg';
 import { useNavigate } from "react-router-dom";
+import instance from "../axios";
 
 export const Header = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
-    localStorage.removeItem("loggedIn");
+    instance.post('/api/logout');
+    localStorage.removeItem("access_token");
+
     navigate("/login");
   };
 

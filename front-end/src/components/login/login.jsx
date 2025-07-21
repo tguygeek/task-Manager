@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, Navigate } from "react-router-dom";
 import styles from "./login.module.css";
 import instance from "../axios";
 
@@ -16,12 +16,16 @@ export const Login = () => {
         email: email,
         password: password,
       };
-      const response = await instance.post('/api/login', userCredentials);
-      console.log("✅ Succès Laravel :", response.data);
-      alert("Connexion réussie !");
-      localStorage.setItem('logedIn' , true);
+      const { data } = await instance.post('/api/login', userCredentials);
+      if (data.token) localStorage.setItem('access_token', data.token);
+      //localStorage.setItem('auth_token' , data.token);
+      console.log(data.user);
       // Redirection vers le gestionaire de tache
-      navigate("/tasks");
+      navigate('/tasks', {
+        state: {
+          email: data.user.email,
+          name: data.user.name }
+      });
     }
     catch (error) {
       if (error.response) {

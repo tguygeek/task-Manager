@@ -1,43 +1,65 @@
-// Ce composnt est utilise pour afficher la liste de tache
+import { TaskItem } from "../taskItem/taskItem";
+import styles from "./TaskList.module.css";
 
-import { Taskitem } from '../taskItem/taskItem';
-import styles from './TaskList.module.css'
+export const TaskList = ({
+  tasksList,
+  allCount,
+  activeCount,
+  completedCount,
+  filter,
+  setFilter,
+  editTask,
+  deleteTask,
+  loading,
+}) => {
+  const tabs = [
+    { key: 'all',       label: 'Tout',      count: allCount       },
+    { key: 'active',    label: 'En cours',  count: activeCount    },
+    { key: 'completed', label: 'Terminées', count: completedCount },
+  ];
 
-export const TaskList = ({ tasksList , editTask, deleteTask, incompletedTask }) => {
-    const  taskList = tasksList.map((task) => (
-                        <Taskitem 
-                            key={task.id}
-                            task={task}
-                            editTask={editTask}
-                            deleteTask={deleteTask}
-                        />
-    ));
+  return (
+    <div className={styles.container}>
+      {/* Onglets filtres */}
+      <div className={styles.tabs}>
+        {tabs.map(({ key, label, count }) => (
+          <button
+            key={key}
+            className={`${styles.tab} ${filter === key ? styles.activeTab : ''}`}
+            onClick={() => setFilter(key)}
+          >
+            {label}
+            <span className={styles.badge}>{count}</span>
+          </button>
+        ))}
+      </div>
 
-    if(tasksList && tasksList.length > 0) {
-        return (
-            <div className="box">
-                <h2 className= {styles.title}>
-                    {incompletedTask > 0 &&
-                        (<>📄 il te reste encore {incompletedTask} taches a effectuer !</>) 
-                    }
-                {incompletedTask === 0 &&
-                        (<>🎉 tu as termine toutes tes taches !</>) }
-                </h2>
-                {tasksList && tasksList.length > 0 && (
-                    <ul className= {styles.container}>
-                        {taskList}
-                    </ul>
-                )}
-
-            </div>
-        );
-    }
-    return (
-        <div className="box">
-            <h2 className={styles.emptyState}>
-                👋 salut tu n'as rien a faire profite de ton temps libre !
-            </h2>
+      {/* Liste */}
+      {loading ? (
+        <div className={styles.loading}>
+          <div className={styles.spinner} />
+          <span>Chargement des tâches...</span>
         </div>
-    );
-
+      ) : tasksList.length === 0 ? (
+        <div className={styles.empty}>
+          {filter === 'all'
+            ? "👋 salut tu n'as rien à faire, profite de ton temps libre !"
+            : filter === 'active'
+            ? "✅ Aucune tâche en cours !"
+            : "📭 Aucune tâche terminée pour l'instant."}
+        </div>
+      ) : (
+        <ul className={styles.list}>
+          {tasksList.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              editTask={editTask}
+              deleteTask={deleteTask}
+            />
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 };

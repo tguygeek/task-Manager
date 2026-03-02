@@ -1,36 +1,155 @@
-.element{
-    margin-bottom: 30px;
-    filter: drop-shadow(0 0 1em rgba(59, 121, 246, 0.15));
+.container {
+  max-width: 760px;
+  margin: 2rem auto;
+  padding: 0 1rem;
 }
 
-.container{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
+.heading {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #fff;
 }
 
-.title{
-    margin-bottom: 10px;
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.input{
-    background-color: #171717;
-    border: 1px solid #272727;
-    border-radius: 8px;
-    font-size: 16px;
-    height: 40px;
-    width: 100%;
-    padding: 0 20px;
-    color: gray;
+.mainRow {
+  display: flex;
+  gap: 0.75rem;
 }
 
-.input:hover{
-
+.input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
 }
 
-.input:focus{
-    outline: none;
-    color: white;
-    border-color: rgba(59, 121, 246, 0.15);
+.input:focus {
+  border-color: #e74c3c;
+}
+
+.addBtn {
+  padding: 0.75rem 1.5rem;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.addBtn:hover {
+  background: #c0392b;
+}
+
+.toggleBtn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-align: left;
+  padding: 0.25rem 0;
+  transition: color 0.2s;
+}
+
+.toggleBtn:hover {
+  color: #ccc;
+}
+
+.extraFields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #111;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  padding: 1rem;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  color: #aaa;
+  font-weight: 500;
+}
+
+.priorityGroup {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.priorityBtn {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background: #1a1a1a;
+  color: #ccc;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.priorityBtn:hover {
+  background: #222;
+}
+
+.priorityActive.low    { border-color: #2ecc71; color: #2ecc71; background: rgba(46,204,113,0.1); }
+.priorityActive.medium { border-color: #f1c40f; color: #f1c40f; background: rgba(241,196,15,0.1); }
+.priorityActive.high   { border-color: #e74c3c; color: #e74c3c; background: rgba(231,76,60,0.1); }
+
+.dateInput {
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 0.9rem;
+  outline: none;
+  max-width: 220px;
+}
+
+.dateInput:focus {
+  border-color: #e74c3c;
+}
+
+.textarea {
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 0.9rem;
+  outline: none;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.textarea:focus {
+  border-color: #e74c3c;
 }

@@ -34,9 +34,7 @@
   transition: border-color 0.2s;
 }
 
-.input:focus {
-  border-color: #e74c3c;
-}
+.input:focus { border-color: #e74c3c; }
 
 .addBtn {
   padding: 0.75rem 1.5rem;
@@ -51,9 +49,7 @@
   white-space: nowrap;
 }
 
-.addBtn:hover {
-  background: #c0392b;
-}
+.addBtn:hover { background: #c0392b; }
 
 .toggleBtn {
   background: none;
@@ -66,9 +62,7 @@
   transition: color 0.2s;
 }
 
-.toggleBtn:hover {
-  color: #ccc;
-}
+.toggleBtn:hover { color: #ccc; }
 
 .extraFields {
   display: flex;
@@ -98,6 +92,28 @@
   font-weight: 500;
 }
 
+/* ✅ Select catégorie */
+.select {
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  padding-right: 2rem;
+}
+
+.select:focus { border-color: #e74c3c; }
+.select option { background: #1a1a1a; color: #fff; }
+
+/* Priorité */
 .priorityGroup {
   display: flex;
   gap: 0.5rem;
@@ -115,9 +131,7 @@
   transition: all 0.2s;
 }
 
-.priorityBtn:hover {
-  background: #222;
-}
+.priorityBtn:hover { background: #222; }
 
 .priorityActive.low    { border-color: #2ecc71; color: #2ecc71; background: rgba(46,204,113,0.1); }
 .priorityActive.medium { border-color: #f1c40f; color: #f1c40f; background: rgba(241,196,15,0.1); }
@@ -132,11 +146,10 @@
   font-size: 0.9rem;
   outline: none;
   max-width: 220px;
+  transition: border-color 0.2s;
 }
 
-.dateInput:focus {
-  border-color: #e74c3c;
-}
+.dateInput:focus { border-color: #e74c3c; }
 
 .textarea {
   padding: 0.6rem 0.8rem;
@@ -148,8 +161,7 @@
   outline: none;
   resize: vertical;
   font-family: inherit;
+  transition: border-color 0.2s;
 }
 
-.textarea:focus {
-  border-color: #e74c3c;
-}
+.textarea:focus { border-color: #e74c3c; }

@@ -1,13 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./TaskInput.module.css";
 import toast from "react-hot-toast";
 
-export const TaskInput = ({ addTask }) => {
+export const TaskInput = ({ addTask, categories = [], defaultCategoryId = null }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("medium");
   const [dueDate, setDueDate] = useState("");
+  const [categoryId, setCategoryId] = useState("");
   const [showExtra, setShowExtra] = useState(false);
+
+  // Quand la catégorie sélectionnée dans la sidebar change, pré-sélectionner dans le formulaire
+  useEffect(() => {
+    setCategoryId(defaultCategoryId ? String(defaultCategoryId) : "");
+  }, [defaultCategoryId]);
+
+  const resetForm = () => {
+    setTitle("");
+    setDescription("");
+    setPriority("medium");
+    setDueDate("");
+    setCategoryId(defaultCategoryId ? String(defaultCategoryId) : "");
+    setShowExtra(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,20 +30,18 @@ export const TaskInput = ({ addTask }) => {
       toast.error("Le titre est obligatoire !");
       return;
     }
+
     const result = await addTask({
       title: title.trim(),
       description,
       priority,
       due_date: dueDate || null,
+      category_id: categoryId ? parseInt(categoryId) : null, // ✅ converti en int ou null
     });
 
     if (result?.success) {
       toast.success(result.message || "Tâche ajoutée !");
-      setTitle("");
-      setDescription("");
-      setPriority("medium");
-      setDueDate("");
-      setShowExtra(false);
+      resetForm();
     } else {
       toast.error(result?.message || "Erreur lors de l'ajout");
     }
@@ -39,7 +52,7 @@ export const TaskInput = ({ addTask }) => {
       <h2 className={styles.heading}>🎯 Ajoute ta 1ère tâche</h2>
 
       <form onSubmit={handleSubmit} className={styles.form}>
-        {/* Ligne principale : titre + bouton */}
+        {/* Ligne principale */}
         <div className={styles.mainRow}>
           <input
             type="text"
@@ -61,17 +74,36 @@ export const TaskInput = ({ addTask }) => {
           {showExtra ? "▲ Masquer les options" : "▼ Options avancées"}
         </button>
 
-        {/* Options avancées */}
         {showExtra && (
           <div className={styles.extraFields}>
+
+            {/* ✅ Sélecteur de catégorie — visible seulement si des catégories existent */}
+            {categories.length > 0 && (
+              <div className={styles.field}>
+                <label>Catégorie</label>
+                <select
+                  className={styles.select}
+                  value={categoryId}
+                  onChange={(e) => setCategoryId(e.target.value)}
+                >
+                  <option value="">Sans catégorie</option>
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={String(cat.id)}>
+                      {cat.icon} {cat.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
             {/* Priorité */}
             <div className={styles.field}>
               <label>Priorité</label>
               <div className={styles.priorityGroup}>
                 {[
-                  { value: 'low',    label: '🟢 Basse'  },
-                  { value: 'medium', label: '🟡 Moyenne' },
-                  { value: 'high',   label: '🔴 Haute'  },
+                  { value: 'low',    label: '🟢 Basse'   },
+                  { value: 'medium', label: '🟡 Moyenne'  },
+                  { value: 'high',   label: '🔴 Haute'    },
                 ].map(({ value, label }) => (
                   <button
                     key={value}

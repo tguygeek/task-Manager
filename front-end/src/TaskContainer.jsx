@@ -13,19 +13,28 @@ export const TaskContainer = () => {
   const { tasksList, loading, addTask, editTask, deleteTask, reorderTasks, getTasksCount } = useTasks();
   const { categories, addCategory, deleteCategory } = useCategories();
   const [filter, setFilter] = useState('all');
-  const [selectedCategory, setSelectedCategory] = useState(null); // null = toutes
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // Active les notifications (badge + toast + push)
   useNotifications(tasksList);
 
-  // Filtrage par catégorie + statut
+  // ✅ Filtre réactif — recalculé à chaque changement de tasksList, filter ou selectedCategory
   const filteredTasks = tasksList.filter(task => {
-    const matchCategory = selectedCategory === null || task.category_id === selectedCategory;
+    const matchCategory = selectedCategory === null
+      || Number(task.category_id) === Number(selectedCategory); // ✅ comparaison typée
     const matchStatus =
       filter === 'active'    ? !task.completed :
-      filter === 'completed' ? task.completed  : true;
+      filter === 'completed' ?  task.completed : true;
     return matchCategory && matchStatus;
   });
+
+  // Compteurs pour les onglets — basés sur la catégorie sélectionnée uniquement
+  const tasksInView = selectedCategory === null
+    ? tasksList
+    : tasksList.filter(t => Number(t.category_id) === Number(selectedCategory));
+
+  const allCount       = tasksInView.length;
+  const activeCount    = tasksInView.filter(t => !t.completed).length;
+  const completedCount = tasksInView.filter(t =>  t.completed).length;
 
   const { completedTask, incompletedTask } = getTasksCount();
 
@@ -34,7 +43,6 @@ export const TaskContainer = () => {
       <Header onRequestPush={requestPushPermission} />
 
       <div className={styles.layout}>
-        {/* Sidebar catégories */}
         <Sidebar
           categories={categories}
           selectedCategory={selectedCategory}
@@ -44,18 +52,17 @@ export const TaskContainer = () => {
           onDeleteCategory={deleteCategory}
         />
 
-        {/* Zone principale */}
         <main className={styles.main}>
           <TaskInput
             addTask={addTask}
-            categories={categories}
+            categories={categories}           // ✅ passe bien les catégories
             defaultCategoryId={selectedCategory}
           />
           <TaskList
             tasksList={filteredTasks}
-            allCount={tasksList.filter(t => selectedCategory === null || t.category_id === selectedCategory).length}
-            activeCount={tasksList.filter(t => !t.completed && (selectedCategory === null || t.category_id === selectedCategory)).length}
-            completedCount={tasksList.filter(t => t.completed && (selectedCategory === null || t.category_id === selectedCategory)).length}
+            allCount={allCount}
+            activeCount={activeCount}
+            completedCount={completedCount}
             filter={filter}
             setFilter={setFilter}
             editTask={editTask}

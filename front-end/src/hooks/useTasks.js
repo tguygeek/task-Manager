@@ -20,23 +20,23 @@ export const useTasks = () => {
     getUserTasks();
   }, []);
 
-  const addTask = async ({ title, description, priority, due_date }) => {
+  const addTask = async ({ title, description, priority, due_date, category_id }) => {
     try {
       const response = await instance.post('/api/tasks', {
         title,
         description: description || null,
         priority: priority || 'medium',
         due_date: due_date || null,
+        category_id: category_id || null,
         completed: false,
       });
       if (response.data.success) {
-        // Mise à jour optimiste
-        setTasksList((prev) => [response.data.task, ...prev]);
+        setTasksList(prev => [response.data.task, ...prev]);
         return { success: true, message: response.data.message };
       }
     } catch (error) {
       console.error('Erreur ajout tâche:', error);
-      return { success: false, message: 'Erreur lors de l\'ajout' };
+      return { success: false, message: "Erreur lors de l'ajout" };
     }
   };
 
@@ -44,9 +44,8 @@ export const useTasks = () => {
     try {
       const response = await instance.put(`/api/tasks/${id}`, fields);
       if (response.data.success) {
-        // Mise à jour optimiste
-        setTasksList((prev) =>
-          prev.map((t) => (t.id === id ? { ...t, ...fields } : t))
+        setTasksList(prev =>
+          prev.map(t => t.id === id ? { ...t, ...fields, category: response.data.task.category } : t)
         );
         return { success: true };
       }
@@ -60,8 +59,7 @@ export const useTasks = () => {
     try {
       const response = await instance.delete(`/api/tasks/${id}`);
       if (response.data.success) {
-        // Mise à jour optimiste
-        setTasksList((prev) => prev.filter((t) => t.id !== id));
+        setTasksList(prev => prev.filter(t => t.id !== id));
         return { success: true, message: response.data.message };
       }
     } catch (error) {
@@ -70,11 +68,32 @@ export const useTasks = () => {
     }
   };
 
+  // Appelé après un drag & drop
+  const reorderTasks = async (newTasksList) => {
+    // Mise à jour optimiste immédiate
+    setTasksList(newTasksList);
+
+    // Persistance en base
+    const payload = newTasksList.map((task, index) => ({
+      id:          task.id,
+      position:    index,
+      category_id: task.category_id,
+    }));
+
+    try {
+      await instance.post('/api/tasks/reorder', { tasks: payload });
+    } catch (error) {
+      console.error('Erreur reorder:', error);
+      // Rollback si erreur
+      getUserTasks();
+    }
+  };
+
   const getTasksCount = () => {
-    const completedTask = tasksList.filter((t) => t.completed).length;
+    const completedTask   = tasksList.filter(t => t.completed).length;
     const incompletedTask = tasksList.length - completedTask;
     return { completedTask, incompletedTask };
   };
 
-  return { tasksList, loading, addTask, editTask, deleteTask, getTasksCount };
+  return { tasksList, loading, addTask, editTask, deleteTask, reorderTasks, getTasksCount };
 };

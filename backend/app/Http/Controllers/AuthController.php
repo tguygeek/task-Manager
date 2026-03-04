@@ -77,6 +77,9 @@ class AuthController extends Controller
             
             // Crée un token API pour l'utilisateur
             $token = $user->createToken('auth-token')->plainTextToken;
+            if ($user->categories()->count() === 0) {
+                app(CategoryController::class)->seedDefaults();
+            }
 
             return response()->json([
                 'user' => $user,

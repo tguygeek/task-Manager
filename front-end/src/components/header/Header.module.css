@@ -1,0 +1,93 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: #0a0a0a;
+  border-bottom: 1px solid #1e1e1e;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-wrap: wrap;
+}
+
+.brand { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+.logo  { font-size: 1.4rem; }
+.brandText { display: flex; flex-direction: column; }
+.appName { font-size: 1rem; font-weight: 700; color: #fff; line-height: 1; }
+.wsIndicator { font-size: 0.72rem; font-weight: 500; margin-top: 1px; }
+
+.center { flex: 1; display: flex; justify-content: center; }
+
+/* Vue switcher */
+.viewSwitcher { display: flex; gap: 0.25rem; flex-shrink: 0; }
+
+.viewBtn {
+  padding: 0.4rem 0.85rem;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: #666;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.viewBtn:hover { color: #ccc; background: #161616; }
+.viewActive { color: #fff; background: #161616; border-color: #2a2a2a; }
+
+/* Actions */
+.actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+
+.iconBtn {
+  position: relative;
+  background: none;
+  border: 1px solid #2a2a2a;
+  border-radius: 7px;
+  color: #888;
+  font-size: 1rem;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.iconBtn:hover { border-color: #444; color: #fff; background: #161616; }
+
+.dot {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #e74c3c;
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoutBtn {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.logoutBtn:hover { background: #c0392b; }
+
+@media (max-width: 768px) {
+  .center { order: 5; width: 100%; }
+  .viewSwitcher { gap: 0.15rem; }
+  .viewBtn { padding: 0.35rem 0.6rem; font-size: 0.75rem; }
+}

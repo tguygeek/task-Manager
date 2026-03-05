@@ -1,0 +1,182 @@
+.panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 360px;
+  background: #0d0d0d;
+  border-left: 1px solid #1e1e1e;
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+  animation: slideIn 0.25s ease;
+  box-shadow: -8px 0 32px rgba(0,0,0,0.5);
+}
+
+@keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #1e1e1e;
+  background: #111;
+}
+
+.tabs { display: flex; gap: 0.25rem; }
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.75rem;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  color: #666;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.tab:hover { background: #1a1a1a; color: #ccc; }
+.activeTab { background: #1a1a1a; color: #fff; }
+
+.badge {
+  background: #222;
+  color: #666;
+  font-size: 0.7rem;
+  padding: 1px 6px;
+  border-radius: 8px;
+}
+
+.activeTab .badge { background: rgba(231,76,60,0.2); color: #e74c3c; }
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+  transition: color 0.15s;
+}
+.closeBtn:hover { color: #fff; }
+
+/* Undo bar */
+.undoBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  background: rgba(231,76,60,0.1);
+  border-bottom: 1px solid rgba(231,76,60,0.2);
+  font-size: 0.78rem;
+  color: #aaa;
+  gap: 0.5rem;
+}
+
+.undoBtn {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.undoBtn:hover { background: #c0392b; }
+
+.body { flex: 1; overflow-y: auto; padding: 0.75rem; }
+
+.empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #444;
+  font-size: 0.85rem;
+}
+
+.list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+
+/* History items */
+.historyItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  background: #111;
+  border-radius: 8px;
+  border: 1px solid #1e1e1e;
+}
+
+.histIcon { font-size: 1rem; flex-shrink: 0; }
+
+.histInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.histDesc {
+  font-size: 0.82rem;
+  color: #ccc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.histDate { font-size: 0.72rem; color: #555; }
+
+.histBadge {
+  font-size: 0.68rem;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* Trash items */
+.trashItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #111;
+  border-radius: 8px;
+  border: 1px solid #1e1e1e;
+}
+
+.trashInfo { flex: 1; min-width: 0; }
+
+.trashTitle {
+  display: block;
+  font-size: 0.85rem;
+  color: #888;
+  text-decoration: line-through;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trashDate { font-size: 0.72rem; color: #555; }
+
+.trashActions { display: flex; gap: 0.25rem; flex-shrink: 0; }
+
+.restoreBtn, .deleteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background 0.15s;
+}
+
+.restoreBtn:hover { background: rgba(59,130,246,0.15); }
+.deleteBtn:hover  { background: rgba(231,76,60,0.15); }

@@ -11,29 +11,26 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['name', 'email', 'password'];
+    protected $hidden   = ['password', 'remember_token'];
+    protected $casts    = ['email_verified_at' => 'datetime', 'password' => 'hashed'];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public function tasks()       { return $this->hasMany(Task::class); }
+    public function categories()  { return $this->hasMany(Category::class); }
+    public function taskHistory() { return $this->hasMany(TaskHistory::class); }
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password'          => 'hashed',
-    ];
-
-    public function tasks()
+    // Workspaces dont l'user est propriétaire
+    public function ownedWorkspaces()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Workspace::class, 'owner_id');
     }
 
-    public function categories()
+    // Tous les workspaces (propriétaire + membre)
+    public function workspaces()
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsToMany(Workspace::class, 'workspace_members')
+                    ->withPivot('role')
+                    ->withTimestamps();
     }
+    
 }

@@ -1,0 +1,161 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 1.5rem;
+  min-height: calc(100vh - 200px);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .board { grid-template-columns: 1fr; }
+}
+
+.column {
+  background: #0d0d0d;
+  border-radius: 12px;
+  border: 1px solid #1e1e1e;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.colHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem 0.75rem;
+  border-top: 3px solid transparent;
+  background: #111;
+}
+
+.colTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ccc;
+  letter-spacing: 0.3px;
+}
+
+.colCount {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.colBody {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 120px;
+}
+
+.emptyCol {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #333;
+  font-size: 0.85rem;
+  border: 2px dashed #1e1e1e;
+  border-radius: 8px;
+}
+
+/* Carte */
+.card {
+  background: #161616;
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  cursor: default;
+}
+
+.card:hover {
+  border-color: #333;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+.card.dragging {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  transform: rotate(1.5deg);
+}
+
+.card.overlay {
+  box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+  border-color: #444;
+}
+
+.cardDrag {
+  color: #333;
+  font-size: 1rem;
+  cursor: grab;
+  padding-top: 1px;
+  flex-shrink: 0;
+  user-select: none;
+  transition: color 0.15s;
+}
+
+.cardDrag:hover { color: #666; }
+.cardDrag:active { cursor: grabbing; }
+
+.cardBody { flex: 1; min-width: 0; }
+
+.cardTitle {
+  font-size: 0.88rem;
+  color: #ddd;
+  font-weight: 500;
+  margin: 0 0 0.4rem;
+  line-height: 1.4;
+}
+
+.cardTitle.done {
+  text-decoration: line-through;
+  color: #555;
+}
+
+.cardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.catBadge {
+  font-size: 0.7rem;
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.priDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dueBadge {
+  font-size: 0.7rem;
+  color: #666;
+}
+
+.cardActions {
+  flex-shrink: 0;
+}
+
+.delBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: opacity 0.15s;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.card:hover .delBtn { opacity: 1; }
+.delBtn:hover { background: rgba(231,76,60,0.15); }
